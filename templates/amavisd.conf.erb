@@ -49,7 +49,7 @@ $lock_file = "/var/run/amavisd/amavisd.lock";  # -L
 $pid_file  = "/var/run/amavisd/amavisd.pid";   # -P
 #NOTE: create directories $MYHOME/tmp, $MYHOME/var, $MYHOME/db manually
 
-$log_level = 0;              # verbosity 0..5, -d
+$log_level = 1;              # verbosity 0..5, -d
 $log_recip_templ = undef;    # disable by-recipient level-0 log entries
 $do_syslog = 1;              # log via syslogd (preferred)
 $syslog_facility = 'mail';   # Syslog facility as a string
@@ -61,10 +61,13 @@ $nanny_details_level = 2;    # nanny verbosity: 1: traditional, 2: detailed
 $enable_dkim_verification = 1;  # enable DKIM signatures verification
 $enable_dkim_signing = 1;    # load DKIM signing code, keys defined by dkim_key
 
-@local_domains_maps = ( [".$mydomain"] );  # list of all local domains
+@local_domains_maps = ( [".$mydomain"]<%= @mydomain %> );  # list of all local domains
 
 @mynetworks = qw( 127.0.0.0/8 [::1] [FE80::]/10 [FEC0::]/10
-                  10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 );
+<% @mynetworks.each do |network| -%>
+                  <%= network %>
+<% end -%>
+                 );
 
 $unix_socketname = "/var/run/amavisd/amavisd.sock";  # amavisd-release or amavis-milter
                # option(s) -p overrides $inet_socket_port and $unix_socketname
