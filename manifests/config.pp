@@ -4,6 +4,7 @@ class amavis::config(
   $final_spam_destiny       = 'D_DISCARD',
   $final_bad_header_destiny = 'D_BOUNCE',
   $max_servers              = '2',
+  $scanning_disabled        = undef,   # scanning enabled by default
   $whitelist                = undef,   # enable whitelisting
   $whitelist_entries,
 ) {
