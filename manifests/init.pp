@@ -1,7 +1,14 @@
 class amavis(
   $spamassassin=true
 ) {
-  package{ 'amavisd-new':
+
+  $package_name = $facts['os']['family'] ? {
+    'RedHat' => 'amavis',
+    'Debian' => 'amavisd-new',
+    default  => 'amavisd-new',
+  }
+
+  package{ $package_name:
     ensure => latest,
     alias  => 'amavis',
     before => Exec['amavis'],
